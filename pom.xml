@@ -23,7 +23,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -52,8 +51,6 @@
             <artifactId>h2</artifactId>
             <version>1.4.200</version>
         </dependency>
-
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -64,6 +61,12 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.12</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -80,7 +83,7 @@
                 <configuration>
                     <url>jdbc:h2:E:/ideaWork/test/tolk/dbh2</url>
                     <user>admin</user>
-                    <password>pwd123</password>
+                    <password>wl123</password>
                 </configuration>
                 <dependencies>
                     <dependency>

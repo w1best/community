@@ -48,7 +48,7 @@ public class AuthorizeController {
         String gitHubToken = gitHubProvider.getAccessToken(tokenDTO);
         GitHubUser gitHubUser = gitHubProvider.getUser(gitHubToken);
         System.out.println(gitHubUser.getName());
-        if(gitHubUser != null){
+        if(gitHubUser != null && gitHubUser.getId() != null){
             User user = new User();
             user.setName(gitHubUser.getName());
             user.setAccountId(String.valueOf(gitHubUser.getId()));
@@ -56,6 +56,7 @@ public class AuthorizeController {
             user.setToken(token);
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
+            user.setAvatarUrl(gitHubUser.getAvatarUrl());
             userMapper.insertUser(user);
             response.addCookie(new Cookie("token",token));
 //            request.getSession().setAttribute("user",gitHubUser);

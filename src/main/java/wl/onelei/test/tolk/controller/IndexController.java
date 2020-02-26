@@ -2,33 +2,28 @@ package wl.onelei.test.tolk.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import wl.onelei.test.tolk.mapper.UserMapper;
-import wl.onelei.test.tolk.model.User;
+import org.springframework.web.bind.annotation.RequestParam;
+import wl.onelei.test.tolk.dto.PaginationDTO;
+import wl.onelei.test.tolk.service.QuestionService;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class IndexController {
 
+
     @Autowired
-    private UserMapper userMapper;
+    private QuestionService questionService;
 
     @GetMapping("/")
-    public String index(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie: cookies) {
-            String name = cookie.getName();
-            if("token".equals(name)){
-                String token = cookie.getValue();
-                User user = userMapper.findByToken(token);
-                if (user != null){
-                    request.getSession().setAttribute("user",user);
-                }
-                break;
-            }
-        }
+    public String index(HttpServletRequest request,
+                        Model model,
+                        @RequestParam(name = "page", defaultValue = "1") Integer page,
+                        @RequestParam(name = "size", defaultValue = "2") Integer size) {
+        PaginationDTO paginations = questionService.list(page,size);
+        model.addAttribute("paginations",paginations);
         return "index";
     }
 }
