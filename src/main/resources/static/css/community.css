@@ -27,3 +27,12 @@ body{
 .profile .section {
     margin-top: 20px;
 }
+
+.community-edit{
+    color: #999;
+    font-size: 13px;
+}
+
+.jumbotron{
+    margin-top: 50px;
+}

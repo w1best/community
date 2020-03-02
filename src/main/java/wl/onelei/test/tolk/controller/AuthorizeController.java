@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import wl.onelei.test.tolk.dto.AccessTokenDTO;
 import wl.onelei.test.tolk.dto.GitHubUser;
-import wl.onelei.test.tolk.mapper.UserMapper;
 import wl.onelei.test.tolk.model.User;
 import wl.onelei.test.tolk.provider.GitHubProvider;
+import wl.onelei.test.tolk.service.UserService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -24,8 +24,9 @@ public class AuthorizeController {
 
     @Autowired
     private GitHubProvider gitHubProvider;
+
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Value("${github.client.id}")
     private String clientId;
@@ -35,10 +36,10 @@ public class AuthorizeController {
     private String redirectUri;
 
     @GetMapping("/callback")
-    public String callback(@RequestParam(name = "code")String code,
-                           @RequestParam(name = "state")String state,
+    public String callback(@RequestParam(name = "code") String code,
+                           @RequestParam(name = "state") String state,
                            HttpServletRequest request,
-                           HttpServletResponse response){
+                           HttpServletResponse response) {
         AccessTokenDTO tokenDTO = new AccessTokenDTO();
         tokenDTO.setClient_id(clientId);
         tokenDTO.setClient_secret(secret);
@@ -47,8 +48,7 @@ public class AuthorizeController {
         tokenDTO.setState(state);
         String gitHubToken = gitHubProvider.getAccessToken(tokenDTO);
         GitHubUser gitHubUser = gitHubProvider.getUser(gitHubToken);
-        System.out.println(gitHubUser.getName());
-        if(gitHubUser != null && gitHubUser.getId() != null){
+        if (gitHubUser != null && gitHubUser.getId() != null) {
             User user = new User();
             user.setName(gitHubUser.getName());
             user.setAccountId(String.valueOf(gitHubUser.getId()));
@@ -57,12 +57,22 @@ public class AuthorizeController {
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(gitHubUser.getAvatarUrl());
-            userMapper.insertUser(user);
-            response.addCookie(new Cookie("token",token));
+            userService.insertOrUpdate(user);
+            response.addCookie(new Cookie("token", token));
 //            request.getSession().setAttribute("user",gitHubUser);
             return "redirect:/";
-        }else {
+        } else {
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logOut(HttpServletRequest request,
+                         HttpServletResponse response){
+        request.getSession().removeAttribute("user");
+        Cookie cookie = new Cookie("token",null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 }
