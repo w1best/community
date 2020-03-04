@@ -8,6 +8,7 @@ import wl.onelei.test.tolk.dto.PaginationDTO;
 import wl.onelei.test.tolk.dto.QuestionDTO;
 import wl.onelei.test.tolk.exception.CustomizeException;
 import wl.onelei.test.tolk.exception.CustomizeErrorCode;
+import wl.onelei.test.tolk.mapper.QuestionCountMapper;
 import wl.onelei.test.tolk.mapper.QuestionMapper;
 import wl.onelei.test.tolk.mapper.UserMapper;
 import wl.onelei.test.tolk.model.Question;
@@ -34,6 +35,9 @@ public class QuestionService {
 
     @Autowired
     private QuestionMapper questionMapper;
+
+    @Autowired
+    private QuestionCountMapper questionCountMapper;
 
 
     public PaginationDTO list(Integer page, Integer size){
@@ -128,5 +132,12 @@ public class QuestionService {
                     .andIdEqualTo(question.getId());
             questionMapper.updateByExampleWithBLOBs(updateQuestion, questionExample);
         }
+    }
+
+    public void incCount(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionCountMapper.incCount(question);
     }
 }
