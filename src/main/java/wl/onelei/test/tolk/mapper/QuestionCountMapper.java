@@ -5,4 +5,5 @@ import wl.onelei.test.tolk.model.Question;
 public interface QuestionCountMapper {
 
     int incCount(Question record);
+    int incCommentCount(Question record);
 }

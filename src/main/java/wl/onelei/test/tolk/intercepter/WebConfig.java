@@ -10,13 +10,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @Package: wl.onelei.test.tolk.intercepter
  * @ClassName: WebConfig
  * @Author: Administrator
- * @Description:
+ * @Description:123
  * @Date: 2020/2/26 23:03
  * @Version: 1.0
+ * @update:123
  */
 @Configuration
-//@EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
+    /**
+     * @Author: Administrator
+     */
 
     @Autowired
     private SessionIntercepter sessionIntercepter;

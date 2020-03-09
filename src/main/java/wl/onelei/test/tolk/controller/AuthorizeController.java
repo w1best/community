@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 /**
- *
+ * @author Administrator
  */
 @Controller
 public class AuthorizeController {

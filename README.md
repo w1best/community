@@ -21,7 +21,10 @@ CREATE CACHED TABLE "PUBLIC"."USER"(
     "GMT_MODIFIED" BIGINT
 )
 ```
+
+```text
 执行flyway
 mvn flyway:migrate
 执行mybatis generater
 mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+```

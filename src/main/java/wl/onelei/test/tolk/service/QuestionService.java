@@ -67,7 +67,7 @@ public class QuestionService {
         return pagination;
     }
 
-    public PaginationDTO list(Integer id, Integer page, Integer size) {
+    public PaginationDTO list(Long id, Integer page, Integer size) {
         PaginationDTO pagination = new PaginationDTO();
         QuestionExample example = new QuestionExample();
         example.createCriteria()
@@ -100,7 +100,7 @@ public class QuestionService {
         return pagination;
     }
 
-    public QuestionDTO getQuestionById(Integer id) {
+    public QuestionDTO getQuestionById(Long id) {
         QuestionDTO questionDTO = new QuestionDTO();
         Question question = questionMapper.selectByPrimaryKey(id);
         if(question == null){
@@ -134,7 +134,7 @@ public class QuestionService {
         }
     }
 
-    public void incCount(Integer id) {
+    public void incCount(Long id) {
         Question question = new Question();
         question.setId(id);
         question.setViewCount(1);
